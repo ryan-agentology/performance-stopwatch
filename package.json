@@ -5,8 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha './**/*.spec.js'",
-    "build:dist": "",
-    "prepublish": "npm run test && npm run build:dist"
+    "pre-commit": "npm test",
+    "prepublish": "npm run test"
   },
   "keywords": [
     "timer",
@@ -18,7 +18,9 @@
   "author": "Joel Tok",
   "license": "MIT",
   "devDependencies": {
+    "git-hooks": "^1.1.10",
     "mocha": "^5.2.0",
+    "pre-commit": "^1.2.2",
     "sinon": "^7.2.3"
   }
 }
