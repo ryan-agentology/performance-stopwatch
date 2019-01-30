@@ -1,0 +1,21 @@
+{
+  "name": "performance-stopwatch",
+  "version": "1.0.0",
+  "description": "A stopwatch timer to track processing time between and during function calls",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "mocha './**/*.spec.js'"
+  },
+  "keywords": [
+    "timer",
+    "performance",
+    "timer",
+    "stopwatch",
+    "backend performance"
+  ],
+  "author": "Joel Tok",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
