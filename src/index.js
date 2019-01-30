@@ -1,10 +1,10 @@
 class StopWatch {
-  constructor(name, logger, logLevel = 'info') {
+  constructor(name = '', logger, logLevel = 'info') {
     if (!logger) {
-      throw new Error('Please pass in a logger for StopWatch to use.');
+      throw new Error('StopWatch Error: Missing mandatory argument "logger" for StopWatch to use.');
     }
     if (!logger[logLevel]) {
-      throw new Error('Current logger in StopWatch does not support logLevel: ' + logLevel + '.');
+      throw new Error('StopWatch Error: Current logger does not support logLevel "' + logLevel + '".');
     }
 
     this.name = name;
@@ -14,7 +14,7 @@ class StopWatch {
     try {
       this.logger[this.logLevel](`stopwatch ${this.name} created.`);
     } catch (err) {
-      throw new Error(logLevel + ' must be a method/function of the logger passed into StopWatch.')
+      throw new Error('StopWatch Error: logger must have logLevel "' + this.logLevel + '" as a method/function.')
     }
   }
 
@@ -31,6 +31,6 @@ class StopWatch {
   }
 }
 
-module.exports =  {
+module.exports = {
   StopWatch,
 };

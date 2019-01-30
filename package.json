@@ -2,9 +2,11 @@
   "name": "performance-stopwatch",
   "version": "1.0.0",
   "description": "A stopwatch timer to track processing time between and during function calls",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "mocha './**/*.spec.js'"
+    "test": "mocha './**/*.spec.js'",
+    "build:dist": "",
+    "prepublish": "npm run test && npm run build:dist"
   },
   "keywords": [
     "timer",
@@ -16,6 +18,7 @@
   "author": "Joel Tok",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.3"
   }
 }
