@@ -42,4 +42,6 @@ stopwatch fooWatch 20000 ms from previous checkpoint, with message: after databa
 In the above scenario, it is likely that the interval between (2) and (3) might be optimizable.
 
 # Possible extensions
-- Conditional actions (aside from logging)  based on threshold levels
+- Default to console.log if no logger is passed in (simplifies initial use)
+- Augment to use a transport (e.g. Winston) mechanism instead of logger - e.g. to push to APIs
+- Conditional responses based on threshold levels for real-time monitoring
