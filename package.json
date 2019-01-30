@@ -1,6 +1,6 @@
 {
   "name": "performance-stopwatch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A stopwatch timer to track processing time between and during function calls",
   "main": "src/index.js",
   "scripts": {
@@ -17,8 +17,8 @@
   ],
   "author": "Joel Tok",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/joeltok/performance-stopwatch"
+    "type": "git",
+    "url": "https://github.com/joeltok/performance-stopwatch"
   },
   "license": "MIT",
   "devDependencies": {
