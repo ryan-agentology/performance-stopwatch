@@ -18,13 +18,11 @@ function foo() {
   const sw = new StopWatch('fooWatch', logger, 'debug');
   sw.start();                         // -- (1)
 
-  for (var i = 0; i < 10000; i++) {
-    // do something time consuming
-  }
+  /* do something */
 
   sw.lap('after loop');               // -- (2)
 
-  // do some database calls
+  /* do more things */
 
   sw.lap('after database calls');     // -- (3)
 }
@@ -39,9 +37,4 @@ stopwatch fooWatch 100 ms from previous checkpoint, with message: after loop
 stopwatch fooWatch 20000 ms from previous checkpoint, with message: after database calls
 ```
 
-In the above scenario, it is likely that the interval between (2) and (3) might be optimizable.
-
-# Possible extensions
-- Default to console.log if no logger is passed in (simplifies initial use)
-- Augment to use a transport (e.g. Winston) mechanism instead of logger - e.g. to push to APIs
-- Conditional responses based on threshold levels for real-time monitoring
+In the above scenario, it is likely that the interval between (2) and (3) might be optimisable.
