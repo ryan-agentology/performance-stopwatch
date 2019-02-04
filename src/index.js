@@ -1,6 +1,5 @@
-class StopWatch {
+class Stopwatch {
   constructor(options = {}) {
-    this.id = options.id;
     this.loggerFunc = options.loggerFunc;
   }
 
@@ -32,7 +31,6 @@ class StopWatch {
 
   _log(checkpoint, message) {
     let logString = '';
-    if (this.id) { logString += `${this.id} - ` };
     if (checkpoint) { logString += `${checkpoint} - ` };
     logString += message
 
@@ -49,5 +47,5 @@ class StopWatch {
 }
 
 module.exports = {
-  StopWatch,
+  Stopwatch,
 };

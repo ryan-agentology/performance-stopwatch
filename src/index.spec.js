@@ -2,7 +2,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 const sandbox = sinon.createSandbox();
 
-const { StopWatch } = require('./index');
+const { Stopwatch } = require('./index');
 
 describe('index.spec.js', function () {
   let logger;
@@ -23,7 +23,7 @@ describe('index.spec.js', function () {
   })
 
   it ('# should successfully print without any configuration', () => {
-    const sw = new StopWatch()
+    const sw = new Stopwatch()
 
     sw.start()
     assert(consoleSpy.callCount, 1)
@@ -37,25 +37,25 @@ describe('index.spec.js', function () {
     assert(consoleSpy.callCount, 4)
   })
 
-  it ('# should successfully use id option', () => {
-    const sw = new StopWatch({
+  it ('# should successfully print out checkpoints', () => {
+    const sw = new Stopwatch({
       id: 'some-test-id'
     });
 
-    sw.start()
+    sw.start('checkpoint-1')
     assert(consoleSpy.callCount, 1)
-    assert(consoleSpy.calledWith('some-test-id - stopwatch started'), true)
+    assert(consoleSpy.calledWith('checkpoint-1 - stopwatch started'), true)
 
-    sw.lap()
-    sw.lap()
+    sw.lap('checkpoint-2')
+    sw.lap('checkpoint-3')
     assert(consoleSpy.callCount, 3)
 
-    sw.total()
+    sw.total('checkpoint-4')
     assert(consoleSpy.callCount, 4)
   })
 
   it ('# should successfully use loggerFunc option if present', () => {
-    const sw = new StopWatch({
+    const sw = new Stopwatch({
       loggerFunc: logger.info,
     });
 
@@ -74,7 +74,7 @@ describe('index.spec.js', function () {
   })
 
   it ('# should notify if loggerFunc option is not a function', () => {
-    const sw = new StopWatch({
+    const sw = new Stopwatch({
       loggerFunc: logger,
     });
 
