@@ -1,33 +1,50 @@
 class StopWatch {
-  constructor(name = '', logger, logLevel = 'info') {
-    if (!logger) {
-      throw new Error('StopWatch Error: Missing mandatory argument "logger" for StopWatch to use.');
-    }
-    if (!logger[logLevel]) {
-      throw new Error('StopWatch Error: Current logger does not support logLevel "' + logLevel + '".');
-    }
-
-    this.name = name;
-    this.logger = logger;
-    this.logLevel = logLevel;
-
-    try {
-      this.logger[this.logLevel](`stopwatch ${this.name} created.`);
-    } catch (err) {
-      throw new Error('StopWatch Error: logger must have logLevel "' + this.logLevel + '" as a method/function.')
-    }
+  constructor(options = {}) {
+    this.id = options.id;
+    this.loggerFunc = options.loggerFunc;
   }
 
-  start() {
+  start(checkpoint) {
     this.prevTime = new Date().valueOf();
-    this.logger[this.logLevel](`stopwatch ${this.name} started.`)
+    this._log(checkpoint, `stopwatch started`)
   }
 
-  lap(message) {
+  lap(checkpoint) {
+    if (!this.prevTime) {
+      this._log(checkpoint, 'stopwatch not started');
+      return;
+    }
     const currTime = new Date().valueOf();
     const lapTime = currTime - this.prevTime;
     this.prevTime = currTime;
-    this.logger[this.logLevel](`stopwatch ${this.name} ${lapTime} ms from previous checkpoint, with message: ${message}`)
+    this._log(checkpoint, `${lapTime} ms from previous checkpoint`)
+    return lapTime
+  }
+
+  total(checkpoint) {
+    if (!this.prevTime) {
+      this._log(checkpoint, 'stopwatch not started');
+      return false;
+    }
+    this._log(checkpoint, `${this.prevTime} ms since start`)
+    return this.prevTime
+  }
+
+  _log(checkpoint, message) {
+    let logString = '';
+    if (this.id) { logString += `${this.id} - ` };
+    if (checkpoint) { logString += `${checkpoint} - ` };
+    logString += message
+
+    if (this.loggerFunc) {
+      try {
+        this.loggerFunc(logString)
+      } catch (err) {
+        console.error(`loggerFunc options needs to be a function`)
+      }
+    } else {
+      console.log(logString)
+    }
   }
 }
 

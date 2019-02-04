@@ -6,8 +6,13 @@ const { StopWatch } = require('./index');
 
 describe('index.spec.js', function () {
   let logger;
+  let consoleSpy;
+  let consoleErrorSpy;
 
   beforeEach(() => {
+    consoleSpy = sandbox.spy(console, 'log')
+    consoleErrorSpy = sandbox.spy(console, 'error')
+
     logger = {
       info: sandbox.stub()
     }
@@ -17,49 +22,64 @@ describe('index.spec.js', function () {
     sandbox.restore();
   })
 
-  it ('# should successfully lap more than once', () => {
-    const sw = new StopWatch('test stopwatch', logger, 'info')
+  it ('# should successfully print without any configuration', () => {
+    const sw = new StopWatch()
 
     sw.start()
+    assert(consoleSpy.callCount, 1)
+    assert(consoleSpy.calledWith('stopwatch started'), true)
+
+    sw.lap()
+    sw.lap()
+    assert(consoleSpy.callCount, 3)
+
+    sw.total()
+    assert(consoleSpy.callCount, 4)
+  })
+
+  it ('# should successfully use id option', () => {
+    const sw = new StopWatch({
+      id: 'some-test-id'
+    });
+
+    sw.start()
+    assert(consoleSpy.callCount, 1)
+    assert(consoleSpy.calledWith('some-test-id - stopwatch started'), true)
+
+    sw.lap()
+    sw.lap()
+    assert(consoleSpy.callCount, 3)
+
+    sw.total()
+    assert(consoleSpy.callCount, 4)
+  })
+
+  it ('# should successfully use loggerFunc option if present', () => {
+    const sw = new StopWatch({
+      loggerFunc: logger.info,
+    });
+
+    sw.start()
+    assert(consoleSpy.callCount == 0, true)
     assert(logger.info.callCount, 1)
-    assert(logger.info.calledWith('stopwatch test stopwatch created.'), true)
 
     sw.lap()
     sw.lap()
+    assert(consoleSpy.callCount == 0, true)
     assert(logger.info.callCount, 3)
+
+    sw.total()
+    assert(consoleSpy.callCount == 0, true)
+    assert(logger.info.callCount, 4)
   })
 
-  it ('# should throw an error if new StopWatch() does not have a logger', () => {
-    let errorFlag = false;
-    try {
-      const sw = new StopWatch('test stopwatch')
-    } catch (err) {
-      errorFlag = true
-      assert.equal(err.message, 'StopWatch Error: Missing mandatory argument "logger" for StopWatch to use.');
-    }
-    assert.equal(errorFlag, true)
-  })
+  it ('# should notify if loggerFunc option is not a function', () => {
+    const sw = new StopWatch({
+      loggerFunc: logger,
+    });
 
-  it ('# should throw an error if new StopWatch() does not have a working logLevel', () => {
-    let errorFlag = false;
-    try {
-      const sw = new StopWatch('test stopwatch', logger, 'debug')
-    } catch (err) {
-      errorFlag = true
-      assert.equal(err.message, 'StopWatch Error: Current logger does not support logLevel "debug".');
-    }
-    assert.equal(errorFlag, true)
-  })
-
-  it ('# should throw an error if sw.logger.info is not a method/function', () => {
-    let errorFlag = false;
-    logger.info = 'some-string'
-    try {
-      const sw = new StopWatch('test stopwatch', logger, 'info')
-    } catch (err) {
-      errorFlag = true
-      assert.equal(err.message, 'StopWatch Error: logger must have logLevel "info" as a method/function.');
-    }
-    assert.equal(errorFlag, true)
+    sw.start()
+    assert(consoleErrorSpy.callCount, 1)
+    assert(logger.info.callCount == 0, true)
   })
 })
