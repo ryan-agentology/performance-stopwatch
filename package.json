@@ -1,6 +1,6 @@
 {
   "name": "performance-stopwatch",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A stopwatch timer to track processing time between and during function calls",
   "main": "src/index.js",
   "scripts": {
